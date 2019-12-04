@@ -4,6 +4,7 @@ terraform.exe
 *.iml
 *.tfstate
 *.tfstate.backup
+*.tfstate.lock.info
 ssh.cfg
 .terraform
 .idea
