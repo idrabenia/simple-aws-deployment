@@ -1,0 +1,1 @@
+web ansible_user=ubuntu ansible_connection=ssh

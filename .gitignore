@@ -1,0 +1,9 @@
+.env
+output.json
+terraform.exe
+*.iml
+*.tfstate
+*.tfstate.backup
+ssh.cfg
+.terraform
+.idea

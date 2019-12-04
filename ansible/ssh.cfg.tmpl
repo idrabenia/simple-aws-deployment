@@ -1,0 +1,8 @@
+Host web
+	HostName {{web_ip.value}}
+	User ubuntu
+	ForwardAgent yes
+	ProxyCommand  C:\Windows\System32\OpenSSH\ssh.exe ubuntu@{{bastion_ip.value}} netcat -w 120 %h %p
+
+Host *
+	StrictHostKeyChecking no
