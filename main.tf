@@ -6,6 +6,8 @@ provider "aws" {
 
 variable "key_name" {}
 variable "environment_tag" {}
+variable "domain_name" {}
+variable "route53_id" {}
 
 module "network" {
   source          = "./modules/network"
@@ -28,4 +30,6 @@ module "load_balancer" {
   subnet_public_az    = module.network.subnet_public_az
   main_vpc            = module.network.target_vpc
   web_server_instance = module.instances.web_server
+  domain_name         = var.domain_name
+  route53_id          = var.route53_id
 }

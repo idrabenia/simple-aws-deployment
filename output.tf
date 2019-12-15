@@ -9,3 +9,7 @@ output "web_ip" {
 output "lb_dns" {
   value = module.load_balancer.lb_url
 }
+
+output "domain_name" {
+  value = var.domain_name
+}
