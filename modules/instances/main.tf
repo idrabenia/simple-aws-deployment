@@ -5,7 +5,7 @@ variable "subnet_public" {}
 variable "subnet_private" {}
 
 resource "aws_security_group" "sg_22" {
-  name   = "sg_22"
+  name   = "${var.environment_tag}-sg_22"
   vpc_id = var.target_vpc.id
 
   # SSH access from the VPC
@@ -29,14 +29,14 @@ resource "aws_security_group" "sg_22" {
 }
 
 resource "aws_security_group" "sg_8080" {
-  name   = "sg_8080"
+  name   = "${var.environment_tag}-sg_8080"
   vpc_id = var.target_vpc.id
 
   ingress {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.target_vpc.cidr_block]
   }
 
   egress {

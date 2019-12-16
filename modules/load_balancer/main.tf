@@ -1,4 +1,4 @@
-variable "environment_tag" {}
+variable "env_tag" {}
 variable "subnet_public" {}
 variable "subnet_public_az" {}
 variable "main_vpc" {}
@@ -7,7 +7,7 @@ variable "domain_name" {}
 variable "route53_id" {}
 
 resource "aws_security_group" "sg_443" {
-  name   = "sg_80"
+  name   = "${var.env_tag}-sg_443"
   vpc_id = var.main_vpc.id
 
   ingress {
@@ -21,11 +21,11 @@ resource "aws_security_group" "sg_443" {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.main_vpc.cidr_block]
   }
 
   tags = {
-    Environment = var.environment_tag
+    Environment = var.env_tag
   }
 }
 
@@ -48,7 +48,7 @@ resource "aws_acm_certificate_validation" "cert" {
 }
 
 resource "aws_lb" "web_server_lb" {
-  name               = "web-server-lb"
+  name               = "${var.env_tag}-web-server-lb"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.sg_443.id]
@@ -62,12 +62,12 @@ resource "aws_lb" "web_server_lb" {
   }
 
   tags = {
-    Environment = var.environment_tag
+    Environment = var.env_tag
   }
 }
 
 resource "aws_lb_target_group" "web_server_lb_group" {
-  name        = "web-server-lb-group"
+  name        = "${var.env_tag}-web-server-lb-group"
   port        = 8080
   protocol    = "HTTP"
   target_type = "instance"
@@ -100,7 +100,7 @@ resource "aws_lb_listener_certificate" "web_server_lb_listener_cert" {
 
 resource "aws_route53_record" "web_record" {
   zone_id = var.route53_id
-  name    = ""
+  name    = var.domain_name
   type    = "A"
 
   alias {

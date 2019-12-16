@@ -25,7 +25,7 @@ module "instances" {
 
 module "load_balancer" {
   source              = "./modules/load_balancer"
-  environment_tag     = var.environment_tag
+  env_tag             = var.environment_tag
   subnet_public       = module.network.subnet_public
   subnet_public_az    = module.network.subnet_public_az
   main_vpc            = module.network.target_vpc
